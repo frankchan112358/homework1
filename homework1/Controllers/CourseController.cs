@@ -30,13 +30,18 @@ namespace homework1.Controllers {
         // GET api/Course
         [HttpGet ("")]
         public ActionResult<IEnumerable<Course>> GetCourses () {
-            return db.Course.ToList();
+            return db.Course.Where (c => c.IsDeleted == false).ToList();
         }
 
         // GET api/Course/5
         [HttpGet ("{id}")]
         public ActionResult<Course> GetCourseById (int id) {
-            return db.Course.Find(id);
+            var value = db.Course.Find(id); 
+            if (value.IsDeleted == true)
+            {
+                return NotFound();
+            }
+            return value;
         }
 
         // POST api/Course
@@ -44,6 +49,7 @@ namespace homework1.Controllers {
         public void PostCourse (Course value) {
             db.Course.Add(value);
             value.DateModified = DateTime.Now;
+            value.IsDeleted = false;
             db.SaveChanges();
          }
 
@@ -59,7 +65,9 @@ namespace homework1.Controllers {
         [HttpDelete ("{id}")]
         public void DeleteCourseById (int id) {
             var value = db.Course.Find(id);
-            db.Course.Remove(value);
+            db.Course.Update(value);
+            value.DateModified = DateTime.Now;
+            value.IsDeleted = true;
             db.SaveChanges();
          }
     }

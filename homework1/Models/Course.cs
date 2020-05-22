@@ -31,5 +31,6 @@ namespace homework1.Models
         [InverseProperty("Course")]
         public virtual ICollection<Enrollment> Enrollment { get; set; }
         public DateTime? DateModified { get; set; }
+        public bool? IsDeleted { get; set; }
     }
 }

@@ -17,13 +17,18 @@ namespace homework1.Controllers {
         // GET api/person
         [HttpGet ("")]
         public ActionResult<IEnumerable<Person>> GetPersons () {
-            return db.Person.ToList();
+            return db.Person.Where(p => p.IsDeleted == false).ToList();
         }
 
         // GET api/person/5
         [HttpGet ("{id}")]
         public ActionResult<Person> GetPersonById (int id) {
-            return db.Person.Find(id);
+            var value = db.Person.Find(id);
+            if (value.IsDeleted == true)
+            {
+                return NotFound();
+            }
+            return value;
         }
 
         // POST api/person
@@ -46,7 +51,9 @@ namespace homework1.Controllers {
         [HttpDelete ("{id}")]
         public void DeletePersonById (int id) {
             var value = db.Person.Find(id);
-            db.Person.Remove(value);
+            db.Person.Update(value);
+            value.DateModified = DateTime.Now;
+            value.IsDeleted = true;
             db.SaveChanges();
          }
     }

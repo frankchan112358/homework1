@@ -39,3 +39,42 @@ GET https://localhost:5001/api/Course/CourseStudents
 
 ###
 GET https://localhost:5001/api/department/DepartmentCourseCount
+
+###
+
+GET https://localhost:5001/api/Course
+
+###
+POST https://localhost:5001/api/Course
+Content-Type: application/json
+
+  {
+    "title": "test1",
+    "credits": 4,
+    "departmentId": 13,
+    "department": null,
+    "courseInstructor": [],
+    "enrollment": [],
+    "dateModified": null
+  }
+
+###
+PUT https://localhost:5001/api/Course/14
+Content-Type: application/json
+
+  {
+    "courseId": 14,
+    "title": "test2",
+    "credits": 4,
+    "departmentId": 13,
+    "department": null,
+    "courseInstructor": [],
+    "enrollment": [],
+    "dateModified": null
+  }
+
+###
+
+DELETE  https://localhost:5001/api/Course/14
+
+###

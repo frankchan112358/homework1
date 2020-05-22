@@ -30,13 +30,18 @@ namespace homework1.Controllers {
         // GET api/department
         [HttpGet ("")]
         public ActionResult<IEnumerable<Department>> GetDepartments () {
-            return db.Department.ToList();
+            return db.Department.Where(d => d.IsDeleted == false).ToList();
         }
 
         // GET api/department/5
         [HttpGet ("{id}")]
         public ActionResult<Department> GetDepartmentById (int id) {
-            return db.Department.Find(id);
+            var value = db.Department.Find(id);
+            if (value.IsDeleted == true)
+            {
+                return NotFound();
+            }
+            return value;
         }
 
         // POST api/department
@@ -48,7 +53,8 @@ namespace homework1.Controllers {
             var budget = new SqlParameter("@Budget", value.Budget);
             var startDate = new SqlParameter("@StartDate", value.StartDate);
             var instructorID = new SqlParameter("@InstructorID", value.InstructorId);
-            db.Database.ExecuteSqlRaw("EXECUTE Department_Insert @Name,@Budget,@StartDate,@InstructorID", name, budget, startDate, instructorID);
+            var dateModified = new SqlParameter("@DateModified", DateTime.Now);
+            db.Database.ExecuteSqlRaw("EXECUTE Department_Insert @Name,@Budget,@StartDate,@InstructorID,@DateModified", name, budget, startDate, instructorID, dateModified);
          }
 
         // PUT api/department/5
@@ -62,7 +68,8 @@ namespace homework1.Controllers {
             var startDate = new SqlParameter("@StartDate", value.StartDate);
             var instructorID = new SqlParameter("@InstructorID", value.InstructorId);
             var rowVersion = new SqlParameter("@RowVersion_Original", db.Department.Find(id).RowVersion);
-            db.Database.ExecuteSqlRaw("execute Department_Update @DepartmentID,@Name,@Budget,@StartDate,@InstructorID,@RowVersion_Original", departmentID, name, budget, startDate, instructorID, rowVersion);
+            var dateModified = new SqlParameter("@DateModified", DateTime.Now);
+            db.Database.ExecuteSqlRaw("execute Department_Update @DepartmentID,@Name,@Budget,@StartDate,@InstructorID,@RowVersion_Original,@DateModified", departmentID, name, budget, startDate, instructorID, rowVersion, dateModified);
          }
 
         // DELETE api/department/5
@@ -73,7 +80,8 @@ namespace homework1.Controllers {
             // db.SaveChanges();
             var departmentID = new SqlParameter("@DepartmentID", value.DepartmentId);
             var rowVersion = new SqlParameter("@RowVersion_Original", value.RowVersion);
-            db.Database.ExecuteSqlRaw("EXECUTE Department_Delete @DepartmentID,@RowVersion_Original", departmentID, rowVersion);
+            var dateModified = new SqlParameter("@DateModified", DateTime.Now);
+            db.Database.ExecuteSqlRaw("EXECUTE Department_Delete @DepartmentID,@RowVersion_Original,@DateModified", departmentID, rowVersion, dateModified);
          }
     }
 }
