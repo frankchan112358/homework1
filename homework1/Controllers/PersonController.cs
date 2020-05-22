@@ -30,6 +30,7 @@ namespace homework1.Controllers {
         [HttpPost ("")]
         public void PostPerson (Person value) {
             db.Person.Add(value);
+            value.DateModified = DateTime.Now;
             db.SaveChanges();
          }
 
@@ -37,6 +38,7 @@ namespace homework1.Controllers {
         [HttpPut ("{id}")]
         public void PutPerson (int id, Person value) {
             db.Person.Update(value);
+            value.DateModified = DateTime.Now;
             db.SaveChanges();
          }
 
