@@ -16,6 +16,17 @@ namespace homework1.Controllers {
             this.db = db;
         }
 
+        // GET api/department/DepartmentCourseCount
+        [HttpGet("DepartmentCourseCount")]
+        public ActionResult<IEnumerable<VwDepartmentCourseCount>> GetDepartmentCourseCount() {
+            return db.VwDepartmentCourseCount.FromSqlRaw(@"
+                    SELECT [DepartmentID]
+                          ,[Name]
+                          ,[CourseCount]
+                      FROM [vwDepartmentCourseCount]").ToList();
+        }
+
+
         // GET api/department
         [HttpGet ("")]
         public ActionResult<IEnumerable<Department>> GetDepartments () {
