@@ -33,3 +33,6 @@ Content-Type: application/json
 ###
 
 DELETE  https://localhost:5001/api/department/16
+
+###
+GET https://localhost:5001/api/Course/CourseStudents

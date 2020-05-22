@@ -14,6 +14,19 @@ namespace homework1.Controllers {
             this.db = db;
         }
 
+        // GET api/Course/CourseStudents
+        [HttpGet("CourseStudents")]
+        public ActionResult<IEnumerable<VwCourseStudents>> GetCourseStudents() {
+            return db.VwCourseStudents.ToList();
+        }
+
+        // GET api/Course/CourseStudentCount
+        [HttpGet("CourseStudentCount")]
+        public ActionResult<IEnumerable<VwCourseStudentCount>> GetCourseStudentCount() {
+            return db.VwCourseStudentCount.ToList();
+        }
+
+
         // GET api/Course
         [HttpGet ("")]
         public ActionResult<IEnumerable<Course>> GetCourses () {
