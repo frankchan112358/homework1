@@ -1,0 +1,35 @@
+
+GET https://localhost:5001/api/department
+
+###
+POST https://localhost:5001/api/department
+Content-Type: application/json
+
+  {
+    "Name": "test1",
+    "Budget": 1000.0000,
+    "StartDate": "2015-01-01T00:00:00",
+    "InstructorId": 30,
+    "RowVersion": "AAAAAAAAB9Q=",
+    "Instructor": null,
+    "Course": []
+  }
+
+###
+PUT https://localhost:5001/api/department/16
+Content-Type: application/json
+
+ {
+    "departmentId": 16,
+    "name": "test2",
+    "budget": 1000.0000,
+    "startDate": "2015-01-01T00:00:00",
+    "instructorId": 30,
+    "rowVersion": "AAAAAAAAJxM=",
+    "instructor": null,
+    "course": []
+  }
+
+###
+
+DELETE  https://localhost:5001/api/department/16
